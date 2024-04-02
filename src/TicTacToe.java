@@ -1,8 +1,20 @@
+import java.lang.*;
 import java.util.Scanner;
 import java.util.Random;
+import java.util.ArrayList;
 
 public class TicTacToe {
-    public static void printGameBoard(char[][] gameBoard) {
+    // global variables
+    public static char [][] gameBoard = {
+            {' ', '|', ' ', '|', ' ' },
+            {'-', '+', '-', '+', '-'},
+            {' ', '|', ' ', '|', ' ' },
+            {'-', '+', '-', '+', '-'},
+            {' ', '|', ' ', '|', ' ' }};
+    public static ArrayList<Integer> usedPositions = new ArrayList<>();
+    public static boolean gameContinues = true;
+
+    public static void printGameBoard() {
         for (char[] row: gameBoard) {
             for(char c: row) {
                 System.out.print(c);
@@ -11,8 +23,8 @@ public class TicTacToe {
         }
     }
 
-    public static void placePiece(char[][] gameBoard, int pos, String user, int[] usedPositions) {
-        char symbol = ' ';
+    public static void placePiece(int pos, String user) {
+        char symbol=' ';
         if (user.equals("player")) {
             symbol = 'X';
         }
@@ -21,7 +33,7 @@ public class TicTacToe {
         }
 
         // FIXME: check how to do this
-        // usedPositions.add(pos);
+        usedPositions.add(pos);
 
         switch(pos) {
             case 1:
@@ -52,19 +64,31 @@ public class TicTacToe {
                 gameBoard[4][4] = symbol;
                 break;
         }
-        printGameBoard(gameBoard);
-        if (user.equals("player")) {
-            computerSteps(gameBoard, usedPositions);
-        }
-        else {
-            playerStep(gameBoard, usedPositions);
+        printGameBoard();
+        if (!overGame()) {
+            if ("player".equals(user)) {
+                computerStep();
+            } else {
+                playerStep();
+            }
         }
     }
 
-    private static void playerStep(char[][] gameBoard, int[] usedPositions) {
-        int pos = getPlayerStep();
+    // FIXME: game doesn't end
+    private static boolean overGame() {
+        // check free positions available
+        if (usedPositions.size() == 8) {
+            System.out.println("Game is Over.");
+            System.out.println("No winner sellected");
+            return true;
+        }
+        return false;
+    }
 
-        placePiece(gameBoard, pos, "player", usedPositions);
+    private static void playerStep() {
+        int pos = getPlayerStep();
+        checkPositionNotUsed(pos, "player");
+        placePiece(pos, "player");
     }
 
     private static int getPlayerStep() {
@@ -73,34 +97,38 @@ public class TicTacToe {
         return scan.nextInt();
     }
 
-    private static void computerSteps(char[][] gameBoard, int[] usedPositions) {
+    private static void computerStep() {
         // computer generate its step number
         Random rand = new Random();
         int rand_pos = rand.nextInt(9);
-
-        // TODO: make a working method
-        // checkPositionNotUsed(rand_pos, "ai", usedPositions);
+        if (rand_pos == 0) {
+            computerStep();
+        }
+        // check position was not previously taken
+        checkPositionNotUsed(rand_pos, "ai");
 
         // display info about computer move
         System.out.println(" ");
         System.out.println("Computer's next move is -> " + rand_pos);
         System.out.println(" ");
+        // making a next step
+        placePiece(rand_pos, "ai");
+    }
 
-        placePiece(gameBoard, rand_pos, "ai", usedPositions);
+    private static void checkPositionNotUsed(int pos, String user) {
+        if (usedPositions.contains(pos)) {
+            System.out.println("Position taken.");
+            if (user.equals("player")) {
+                playerStep();
+            }
+            else {
+                computerStep();
+            }
+        }
     }
 
     public static void main(String[] args) {
-        char [][] gameBoard = {
-                {' ', '|', ' ', '|', ' ' },
-                {'-', '+', '-', '+', '-'},
-                {' ', '|', ' ', '|', ' ' },
-                {'-', '+', '-', '+', '-'},
-                {' ', '|', ' ', '|', ' ' }};
-        String user = "player";
-        int[] usedPositions = {};
-
         int pos = getPlayerStep();
-
-        placePiece(gameBoard, pos, "player", usedPositions);
+        placePiece(pos, "player");
     }
 }
