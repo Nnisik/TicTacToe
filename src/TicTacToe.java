@@ -30,7 +30,6 @@ public class TicTacToe {
             symbol = 'O';
         }
 
-        // FIXME: check how to do this
         usedPositions.add(pos);
 
         switch(pos) {
@@ -71,130 +70,118 @@ public class TicTacToe {
             System.exit(0);
         }
         else {
-            if (overGame()) {
+            // check weather game can be continued
+            if (usedPositions.size() == 9) {
+                System.out.println("Game is Over.");
+                System.out.println("No winner sellected");
                 System.exit(0);
             } else {
                 if ("player".equals(user)) {
+                    // computer moves next
                     computerStep();
                 } else {
+                    // player moves next
                     playerStep();
                 }
             }
         }
     }
 
+    // FIXME: game doesn't care about win scenarios
     private static boolean checkWinner(int pos) {
-        if (pos == 1) {
-            char symbol = gameBoard[0][0];
-            // check horizontal
-            if (gameBoard[0][2] == symbol && gameBoard[0][4] == symbol) {
-                return true;
-            }
-            // check vertical
-            if (gameBoard[2][0] == symbol && gameBoard[4][0] == symbol) {
-                return true;
-            }
-            // check diagonal
-            return gameBoard[2][2] == symbol && gameBoard[4][4] == symbol;
-        }
-        if (pos == 2) {
-            char symbol = gameBoard[0][2];
-            // check horizontal
-            if (gameBoard[0][0] == symbol && gameBoard[0][4] == symbol) {
-                return true;
-            }
-            // check vertical
-            return gameBoard[2][2] == symbol && gameBoard[4][2] == symbol;
-        }
-        if (pos == 3) {
-            char symbol = gameBoard[0][4];
-            // check horizontal
-            if (gameBoard[0][2] == symbol && gameBoard[0][0] == symbol) {
-                return true;
-            }
-            // check vertical
-            if (gameBoard[2][4] == symbol && gameBoard[4][4] == symbol) {
-                return true;
-            }
-            // check diagonal
-            return gameBoard[2][2] == symbol && gameBoard[4][0] == symbol;
-        }
-        if (pos == 4) {
-            char symbol = gameBoard[2][0];
-            // check horizontal
-            if (gameBoard[2][2] == symbol && gameBoard[2][4] == symbol) {
-                return true;
-            }
-            // check vertical
-            return gameBoard[0][0] == symbol && gameBoard[4][0] == symbol;
-        }
-        if (pos == 5) {
-            char symbol = gameBoard[2][2];
-            // check horizontal
-            if (gameBoard[2][0] == symbol && gameBoard[2][4] == symbol) {
-                return true;
-            }
-            // check vertical
-            if (gameBoard[0][2] == symbol && gameBoard[4][2] == symbol) {
-                return true;
-            }
-            // check diagonal
-            return (gameBoard[0][0] == symbol && gameBoard[4][4] == symbol) || (gameBoard[0][4] == symbol && gameBoard[4][0] == symbol);
-        }
-        if (pos == 6) {
-            char symbol = gameBoard[2][4];
-            // check horizontal
-            if (gameBoard[2][0] == symbol && gameBoard[2][2] == symbol) {
-                return true;
-            }
-            // check vertical
-            return gameBoard[0][4] == symbol && gameBoard[4][4] == symbol;
-        }
-        if (pos == 7) {
-            char symbol = gameBoard[4][0];
-            // check horizontal
-            if (gameBoard[4][2] == symbol && gameBoard[4][4] == symbol) {
-                return true;
-            }
-            // check vertical
-            if (gameBoard[0][0] == symbol && gameBoard[2][0] == symbol) {
-                return true;
-            }
-            // check diagonal
-            return gameBoard[2][2] == symbol && gameBoard[0][4] == symbol;
-        }
-        if (pos == 8) {
-            char symbol = gameBoard[4][2];
-            // check horizontal
-            if (gameBoard[4][0] == symbol && gameBoard[4][4] == symbol) {
-                return true;
-            }
-            // check vertical
-            return (gameBoard[0][2] == symbol && gameBoard[2][2] == symbol);
-        }
-        if (pos == 9) {
-            char symbol = gameBoard[4][4];
-            // check horizontal
-            if (gameBoard[4][0] == symbol && gameBoard[4][2] == symbol) {
-                return true;
-            }
-            // check vertical
-            if (gameBoard[2][4] == symbol && gameBoard[0][4] == symbol) {
-                return true;
-            }
-            // check diagonal
-            return gameBoard[2][2] == symbol && gameBoard[0][4] == symbol;
-        }
-        return false;
-    }
-
-    // FIXME: game doesn't end
-    private static boolean overGame() {
-        // check free positions available
-        if (usedPositions.size() == 8) {
-            System.out.println("Game is Over.");
-            System.out.println("No winner sellected");
-            return true;
+        char symbol;
+        switch(pos) {
+            case 1:
+                symbol = gameBoard[0][0];
+                // check horizontal
+                if (gameBoard[0][2] == symbol && gameBoard[0][4] == symbol) {
+                    return true;
+                }
+                // check vertical
+                if (gameBoard[2][0] == symbol && gameBoard[4][0] == symbol) {
+                    return true;
+                }
+                // check diagonal
+                return gameBoard[2][2] == symbol && gameBoard[4][4] == symbol;
+            case 2:
+                symbol = gameBoard[0][2];
+                // check horizontal
+                if (gameBoard[0][0] == symbol && gameBoard[0][4] == symbol) {
+                    return true;
+                }
+                // check vertical
+                return gameBoard[2][2] == symbol && gameBoard[4][2] == symbol;
+            case 3:
+                symbol = gameBoard[0][4];
+                // check horizontal
+                if (gameBoard[0][2] == symbol && gameBoard[0][0] == symbol) {
+                    return true;
+                }
+                // check vertical
+                if (gameBoard[2][4] == symbol && gameBoard[4][4] == symbol) {
+                    return true;
+                }
+                // check diagonal
+                return gameBoard[2][2] == symbol && gameBoard[4][0] == symbol;
+            case 4: symbol = gameBoard[2][0];
+                // check horizontal
+                if (gameBoard[2][2] == symbol && gameBoard[2][4] == symbol) {
+                    return true;
+                }
+                // check vertical
+                return gameBoard[0][0] == symbol && gameBoard[4][0] == symbol;
+            case 5:
+                symbol = gameBoard[2][2];
+                // check horizontal
+                if (gameBoard[2][0] == symbol && gameBoard[2][4] == symbol) {
+                    return true;
+                }
+                // check vertical
+                if (gameBoard[0][2] == symbol && gameBoard[4][2] == symbol) {
+                    return true;
+                }
+                // check diagonal
+                return (gameBoard[0][0] == symbol && gameBoard[4][4] == symbol) || (gameBoard[0][4] == symbol && gameBoard[4][0] == symbol);
+            case 6:
+                symbol = gameBoard[2][4];
+                // check horizontal
+                if (gameBoard[2][0] == symbol && gameBoard[2][2] == symbol) {
+                    return true;
+                }
+                // check vertical
+                return gameBoard[0][4] == symbol && gameBoard[4][4] == symbol;
+            case 7:
+                symbol = gameBoard[4][0];
+                // check horizontal
+                if (gameBoard[4][2] == symbol && gameBoard[4][4] == symbol) {
+                    return true;
+                }
+                // check vertical
+                if (gameBoard[0][0] == symbol && gameBoard[2][0] == symbol) {
+                    return true;
+                }
+                // check diagonal
+                return gameBoard[2][2] == symbol && gameBoard[0][4] == symbol;
+            case 8:
+                symbol = gameBoard[4][2];
+                // check horizontal
+                if (gameBoard[4][0] == symbol && gameBoard[4][4] == symbol) {
+                    return true;
+                }
+                // check vertical
+                return (gameBoard[0][2] == symbol && gameBoard[2][2] == symbol);
+            case 9:
+                symbol = gameBoard[4][4];
+                // check horizontal
+                if (gameBoard[4][0] == symbol && gameBoard[4][2] == symbol) {
+                    return true;
+                }
+                // check vertical
+                if (gameBoard[2][4] == symbol && gameBoard[0][4] == symbol) {
+                    return true;
+                }
+                // check diagonal
+                return gameBoard[2][2] == symbol && gameBoard[0][4] == symbol;
         }
         return false;
     }
@@ -234,10 +221,9 @@ public class TicTacToe {
             System.out.println("Position taken.");
             if (user.equals("player")) {
                 playerStep();
+                return;
             }
-            else {
-                computerStep();
-            }
+            computerStep();
         }
     }
 
